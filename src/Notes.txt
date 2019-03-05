@@ -1,0 +1,45 @@
+-ArrayList of all objects in game: ArrayList<GameObject> gameObjects for example
+-Make an array of Vector3Ds the size of gameObjects, and store each objects 3 basis constants
+-If the normal basis vector constant is negative, make object null
+-If the plane vector constants are larger than +-camerawidth(orlength)/2, make object null
+-For the remaining objects, make two arrays to sort them by distance:
+ -One for the objects
+ -The other for distance (inefficient but easier, don't need to have this one)
+-Sort the distance array, and whenever swapping two values, swap the corresponding indices in object array
+-Now the object array is sorted by distance
+-Now, calculate the sum of all the numbers of polygons in each object
+-LA: Make a new array of polygons of that size
+-For each object, make an array of polygons and sort the object's polygons into that array based on distance (the closest vertex to the camera is the distance) (this is expensive af. would prefer to sort based on the distance to the center of the rectangle) NOTE: (instead of this, we can just use the array made at LA but track the indices to use for each object)
+-unload all the sorted arrays into the array made at LA
+-scan through the array, checking if they are properly sorted (if it encounters one that's out of place, keep swapping until it's in the right place, then continue on)
+
+
+Local Game cycle (non-network):
+-Notes:
+ -Variable for average time it takes to do the tick() cycle
+ -Have another time check for time = (1 fps in nanoseconds MINUS average tick() time PLUS errorbuffer (in case tick() takes longer than average))
+-Things to do every
+ -Game frame: (no game frame in local, i think? not sure, it might be best to use this)
+ -Render frame:
+  ->Input: Update location for objects that move (camera, other players)
+  ->Camera: Update the list of game objects that are in the camera frame
+-Actual Cycle:
+ -For all game objects:
+  -Objects that can move themselves:
+   -Tick
+    ->Movement: Update location based on input values and time passed
+ -For camera:
+  -Get ordered list of polygons to draw (detailed above)
+  -Draw all polygons
+-Organization:
+-Other:
+ -KeyListeners will take care of updating keyPressed and mouseLocation values
+
+
+1) Project all objects locations to the screen
+2) Find their locations in terms of all 3 basis vectors (subtracted from the current location)
+2a) If the plane normal vector constant is negative, it's behind us, don't render, remove from list
+2) Find their locations in terms of the 2 plane vectors (subtracted from the current location)
+3) If 
+     a) the constants are greater than camerawidth/length OR
+     b) either of the constants are negative
